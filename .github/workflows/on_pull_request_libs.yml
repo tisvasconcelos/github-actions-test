@@ -42,10 +42,10 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version-file: '.nvmrc'
-      #      - name: Log direct projects
-      #        run: echo ${{needs.setup.outputs['direct-projects']}}
-      #      - name: Log dependent projects
-      #        run: echo ${{needs.setup.outputs['dependent-projects']}}
+#      - name: Log direct projects
+#        run: echo ${{needs.setup.outputs['direct-projects']}}
+#      - name: Log dependent projects
+#        run: echo ${{needs.setup.outputs['dependent-projects']}}
       - run: |
           echo "${{ matrix.value }}"
       - uses: ./.github/actions/deploy

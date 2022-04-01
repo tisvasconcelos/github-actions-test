@@ -1,0 +1,41 @@
+name: Pull request
+on:
+  pull_request:
+    paths:
+      - 'libs/**'
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      direct-projects: ${{ steps['set-direct-projects'].outputs['direct-projects'] }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: main
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/cache/node
+      - uses: actions/setup-node@v2
+        with:
+          node-version-file: '.nvmrc'
+      - name: Install Rush
+        run: node common/scripts/install-run-rush.js install --purge
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - uses: ./.github/actions/verify-versions
+      - id: set-direct-projects
+        working-directory: ${{ github.workspace }}/tools/affected-projects
+        name: Set directly affected projects by PR
+        run: echo "::set-output name=direct-projects::$(node dist/index.js --json)"
+
+  log-affected-projects:
+    needs:
+      - setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version-file: '.nvmrc'
+      - uses: ./.github/actions/cache/node
+      - name: Log affected projects
+        run: echo ${{needs.setup.outputs['direct-projects']}}

@@ -480,11 +480,6 @@
       "packageName": "affected-projects",
       "projectFolder": "tools/affected-projects",
       "reviewCategory": "tools"
-    },
-    {
-      "packageName": "dependency-map",
-      "projectFolder": "tools/dependency-map",
-      "reviewCategory": "tools"
     }
   ]
 }

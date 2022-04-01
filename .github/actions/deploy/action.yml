@@ -1,0 +1,13 @@
+name: Apps deploy
+
+inputs:
+  app-name:
+    description: 'App to be deployed name'
+    required: true
+    default: ''
+
+runs:
+  using: "composite"
+  steps:
+    - run: echo Hello ${{ inputs.  app-name }}.
+      shell: bash
